@@ -49,7 +49,10 @@
           Clear Canvas
         </v-btn>
         <v-btn class="ma-2" outlined color="indigo" @click="changeRotateStatus">
-          Rotar
+          Traslation
+        </v-btn>
+        <v-btn class="ma-2" outlined color="indigo" @click="changeRotateStatus">
+          Rotate
         </v-btn>
       </v-toolbar>
     </v-card>
@@ -121,17 +124,24 @@
 <script>
 //import { columns, rows } from "../utils/Grid";
 import AppBar from "./AppBar.vue";
-import { ddaAlgorithm, positionsTest, bresenham } from "@/utils/Line";
+import {
+  ddaAlgorithm,
+  positionsTest,
+  bresenham,
+  // pixelCoordinatesForZoom,
+} from "@/utils/Line";
 import { boundaryFill4, drawPixelCall } from "@/utils/Fill";
 import { FullPixel } from "@/utils/FullPixel";
 import EllipseComponent from "./EllipseComponent.vue";
 import CircleComponent from "./CircleComponent.vue";
 import LineComponent from "./LineComponent.vue";
 import PositionsComponent from "./PositionsComponent.vue";
-import { puntomedioe, point, traslate } from "@/utils/Rotation";
+//import { puntomedioe, point, traslate } from "@/utils/Rotation";
 import { circleMidPoint } from "@/utils/Circle";
 import { ellipseMidpoint } from "@/utils/Ellipse";
-const NUMBERFORZOOM = 5;
+import { Pixel } from "../utils/Pixel";
+
+const NUMBERFORZOOM = 10;
 export default {
   components: {
     AppBar,
@@ -223,7 +233,7 @@ export default {
         this.vueCanvas.strokeStyle = "#44414B";
         this.vueCanvas.lineWidth = this.lineWidth;
         //columns(this.height, this.canvas, this.vueCanvas);
-        //rows(this.height, this.canvas, this.vueCanvas);
+        // rows(this.height, this.canvas, this.vueCanvas);
       } else {
         alert("Canvas is not supported by your browser");
       }
@@ -312,26 +322,33 @@ export default {
           );
           break;
         case this.getRotate === true:
-          this.rotation();
+          this.translation(
+            Math.round(this.startPosition.x / this.square) * this.square,
+            Math.round(this.startPosition.y / this.square) * this.square,
+            Math.round(this.finalPosition.x / this.square) * this.square,
+            Math.round(this.finalPosition.y / this.square) * this.square,
+            this.width,
 
+            this.vueCanvas
+          );
           break;
         default:
           console.log("Help");
       }
     },
-    rotation: function () {
-      let point1 = new point(0, 0);
-
-      let points = puntomedioe(40, 100, point1);
-      let dpoints = traslate(points, 500, 500);
-      drawPixelCall(
-        Math.round(dpoints.x / this.square) * this.square,
-        Math.round(dpoints.y / this.square) * this.square,
-        this.vueCanvas,
-        "red",
-        this.width
+    translation: function (x1, y1, x2, y2, width, ctx) {
+      ctx.translate(x2, y2);
+      let x = x2 - x1;
+      let y = y2 - y1;
+      let array = [];
+      positionsTest.forEach(
+        (e) => array.push(new Pixel(e.x + x, e.y + y, e.color)),
+        positionsTest.pop()
       );
+      this.drawGrid();
+      array.forEach((e) => drawPixelCall(e.x, e.y, ctx, e.color, width));
     },
+
     erasePixelCoordinates: function (x, y, x2, y2) {
       this.vueCanvas.clearRect(x, y, x2 - 0.5, y2 - 0.5);
     },
@@ -366,13 +383,3 @@ export default {
 <style lang="scss">
 @import "../components/Principal.scss";
 </style>
-
-
-
-
-
-
-
-
-
-}

@@ -2,6 +2,7 @@ import { pixelCoordinatesForZoom } from "./Line";
 
 export function boundaryFill4(x, y, ctx, width, color) {
   let pixel = ctx.getImageData(x, y, width, width);
+  console.log(pixel);
   ctx.fillStyle = color;
   if (pixel.data[3] != 0) {
     console.log("hola");
