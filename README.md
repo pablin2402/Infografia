@@ -1,6 +1,6 @@
 # MY PAINT 
 BY PABLO RIVAS
-I have finished All the bounded points, translation and rotation
+I have finished All the bounded points(DDA, BRESENHAM,CIRCLE,ELLIPSE,PAINT INSIDE THE SHAPE), translation and rotation
 You can run the proyect following the next steps
 ## Project setup
 ```
