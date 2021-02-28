@@ -1,5 +1,7 @@
-# mypaint
-
+# MY PAINT 
+BY PABLO RIVAS
+I have finished All the bounded points, translation and rotation
+You can run the proyect following the next steps
 ## Project setup
 ```
 npm install
