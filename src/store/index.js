@@ -14,6 +14,7 @@ export default new Vuex.Store({
     deletePixel: false,
     pallete: false,
     rotate: false,
+    translate: false,
   },
   mutations: {
     changeEllipseStatus(state, step) {
@@ -23,6 +24,8 @@ export default new Vuex.Store({
       state.lineBresenhamStatus = false;
       state.lineStatus = false;
       state.pallete = false;
+      state.rotate = false;
+      state.translate = false;
     },
     changeRotateStatus(state, step) {
       state.ellipseStatus = false;
@@ -32,6 +35,17 @@ export default new Vuex.Store({
       state.lineStatus = false;
       state.pallete = false;
       state.rotate = step;
+      state.translate = false;
+    },
+    changeTranslateStatus(state, step) {
+      state.ellipseStatus = false;
+      state.circleStatus = false;
+      state.lineDDAStatus = false;
+      state.lineBresenhamStatus = false;
+      state.lineStatus = false;
+      state.pallete = false;
+      state.rotate = false;
+      state.translate = step;
     },
     changeDeleteStatus(state, step) {
       state.ellipseStatus = false;
@@ -41,6 +55,8 @@ export default new Vuex.Store({
       state.lineStatus = false;
       state.deletePixel = step;
       state.pallete = false;
+      state.rotate = false;
+      state.translate = false;
     },
     changeCircleStatus(state, step) {
       state.circleStatus = step;
@@ -49,6 +65,8 @@ export default new Vuex.Store({
       state.lineBresenhamStatus = false;
       state.lineStatus = false;
       state.pallete = false;
+      state.rotate = false;
+      state.translate = false;
     },
     changeLineDDAStatus(state, step) {
       state.lineDDAStatus = step;
@@ -56,6 +74,8 @@ export default new Vuex.Store({
       state.lineBresenhamStatus = false;
       state.ellipseStatus = false;
       state.pallete = false;
+      state.rotate = false;
+      state.translate = false;
     },
     changeBresenhamStatus(state, step) {
       state.lineDDAStatus = false;
@@ -63,6 +83,8 @@ export default new Vuex.Store({
       state.lineBresenhamStatus = step;
       state.ellipseStatus = false;
       state.pallete = false;
+      state.rotate = false;
+      state.translate = false;
     },
     changeLineStatus(state, step) {
       state.lineDDAStatus = false;
@@ -71,6 +93,8 @@ export default new Vuex.Store({
       state.ellipseStatus = false;
       state.lineStatus = step;
       state.pallete = false;
+      state.rotate = false;
+      state.translate = false;
     },
     changePaletteStatus(state, step) {
       state.lineDDAStatus = false;
@@ -79,6 +103,8 @@ export default new Vuex.Store({
       state.ellipseStatus = false;
       state.lineStatus = false;
       state.pallete = step;
+      state.rotate = false;
+      state.translate = false;
     },
   },
   actions: {},
@@ -107,6 +133,9 @@ export default new Vuex.Store({
     },
     getRotate(state) {
       return state.rotate;
+    },
+    getTranslation(state) {
+      return state.translate;
     },
   },
 });

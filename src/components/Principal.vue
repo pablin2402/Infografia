@@ -48,7 +48,12 @@
         <v-btn class="ma-2" outlined color="indigo" @click="clearCanvas">
           Clear Canvas
         </v-btn>
-        <v-btn class="ma-2" outlined color="indigo" @click="changeRotateStatus">
+        <v-btn
+          class="ma-2"
+          outlined
+          color="indigo"
+          @click="changeTranslationStatus"
+        >
           Traslation
         </v-btn>
         <v-btn class="ma-2" outlined color="indigo" @click="changeRotateStatus">
@@ -178,11 +183,14 @@ export default {
     this.drawGrid();
   },
   computed: {
-    getColor() {
+    getColor: function () {
       return this.$store.getters.colors;
     },
-    getRotate() {
+    getRotate: function () {
       return this.$store.getters.getRotate;
+    },
+    getTranslate: function () {
+      return this.$store.getters.getTranslation;
     },
     getEllipseStatus: function () {
       return this.$store.getters.getEllipse;
@@ -215,6 +223,9 @@ export default {
     },
     deletePixel: function () {
       this.$store.commit("changeDeleteStatus", true);
+    },
+    changeTranslationStatus() {
+      this.$store.commit("changeTranslateStatus", true);
     },
 
     updateColor: function (colors) {
@@ -322,6 +333,17 @@ export default {
           );
           break;
         case this.getRotate === true:
+          this.rotation(
+            Math.round(this.startPosition.x / this.square) * this.square,
+            Math.round(this.startPosition.y / this.square) * this.square,
+            Math.round(this.finalPosition.x / this.square) * this.square,
+            Math.round(this.finalPosition.y / this.square) * this.square,
+            this.width,
+
+            this.vueCanvas
+          );
+          break;
+        case this.getTranslate === true:
           this.translation(
             Math.round(this.startPosition.x / this.square) * this.square,
             Math.round(this.startPosition.y / this.square) * this.square,
@@ -348,7 +370,21 @@ export default {
       this.drawGrid();
       array.forEach((e) => drawPixelCall(e.x, e.y, ctx, e.color, width));
     },
+    rotation: function (x1, y1, x2, y2, width, ctx) {
+      ctx.rotate((45 * Math.PI) / 180);
+      ctx.translate(x2, y2);
+      /*
+      let array = [];
+      positionsTest.forEach(
+        (e) => array.push(new Pixel(e.x, e.y, e.color)),
+        positionsTest.pop()
+      );
 
+  */ this.drawGrid();
+      positionsTest.forEach((e) =>
+        drawPixelCall(e.x, e.y, ctx, e.color, width)
+      );
+    },
     erasePixelCoordinates: function (x, y, x2, y2) {
       this.vueCanvas.clearRect(x, y, x2 - 0.5, y2 - 0.5);
     },
